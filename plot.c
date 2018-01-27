@@ -587,10 +587,10 @@ int main(int argc, char **argv) {
 
 	mkdir(outputdir, S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IROTH);
 
-	char name[100];
-	char finalname[100];
-	sprintf(name, "%s%llu_%llu_%u_%u.plotting", outputdir, addr, startnonce, nonces, nonces);
-	sprintf(finalname, "%s%llu_%llu_%u_%u", outputdir, addr, startnonce, nonces, nonces);
+	char name[4096];
+	char finalname[4096];
+	snprintf(name, sizeof(name), "%s%llu_%llu_%u_%u.plotting", outputdir, addr, startnonce, nonces, nonces);
+	snprintf(finalname, sizeof(filename), "%s%llu_%llu_%u_%u", outputdir, addr, startnonce, nonces, nonces);
 
 	if ( fileexists(name) ) {
 		unlink(name);
