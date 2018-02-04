@@ -520,6 +520,9 @@ int main(int argc, char **argv) {
 			printf("Not enough free space on device\n");
 			exit(-1);
 		}
+
+		printf("Device has %llu bytes of free space, leaving %llu bytes after plotting.\n", fs, FREE_SPACE);
+
 		fs -= FREE_SPACE;
 				
 		nonces = (unsigned long long)(fs / PLOT_SIZE);
@@ -556,7 +559,11 @@ int main(int argc, char **argv) {
 	// Adjust according to stagger size
 	if(nonces % staggersize != 0) {
 		nonces -= nonces % staggersize;
-		nonces += staggersize;
+		if (nonces == 0) {
+			printf("Can\'t adjust nonce count towards zero with the given stagger size, please omit stagger size option next time.\n");
+			exit(-1);
+		}
+
 		printf("Adjusting total nonces to %u to match stagger size\n", nonces);
 	}
 
